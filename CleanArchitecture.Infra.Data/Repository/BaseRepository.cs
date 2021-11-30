@@ -9,26 +9,29 @@ using System.Threading.Tasks;
 
 namespace CleanArchitecture.Infra.Data.Repository
 {
+    // implementa a interface generica
     public class BaseRepository<T> : IBaseRepository<T> where T : ModelBase
     {
-        private readonly CleanArchictetureContext _context;
+        private readonly CleanArchictetureContext _context; 
 
         public BaseRepository(CleanArchictetureContext context)
         {
-            _context = context;
+            _context = context; // _context uma representação do banco de dados
         }
 
+        // retorna uma lista onde o status e ativo(T representa uma classe que é definida no repositorio próprio)
+        // exemplo Lista<Produto>
         public async Task<List<T>> ListAllActive()
         {
             return await _context.Set<T>()
                 .Where(x => x.Status == EnumStatus.Active)
-                .ToListAsync();
+                .ToListAsync(); // Converte o tipo para lista
         }
 
         public async Task<T> Add(T model)
         {
-            _context.Set<T>().Add(model);
-            await _context.SaveChangesAsync();
+            _context.Set<T>().Add(model); // Adiciona o objeto
+            await _context.SaveChangesAsync(); // Aqui é onde realmente ele faz o commit pro banco
             return model;
         }        
 

@@ -31,6 +31,7 @@ namespace CleanArchitecture.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // configuração do nosso context(banco de dados)
             services.AddDbContext<CleanArchictetureContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("SQLConnection")));
 
@@ -39,7 +40,7 @@ namespace CleanArchitecture.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CleanArchitecture.API", Version = "v1" });
             });
-
+            
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IProductRepository, ProductRepository>();
         }
